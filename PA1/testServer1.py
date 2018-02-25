@@ -1,11 +1,6 @@
 import os
 import BaseHTTPServer
 
-
-class ServerException(Exception):
-    pass
-
-
 class base_case(object):
 
     def handle_file(self, handler, full_path):
@@ -26,6 +21,23 @@ class base_case(object):
     def act(self, handler):
         assert False, 'Not Implement'
 
+class case_cgi_file(object):
+
+    def run_cgi(self, handler):
+
+        cmd = "D:\\\"Program Files (x86)\"\\python2\\python " + handler.full_path
+        child_stdin, child_stdout = os.popen2(cmd)
+        child_stdin.close()
+        data = child_stdout.read()
+        child_stdout.close()
+        handler.send_content(data)
+
+    def test(self, handler):
+        return os.path.isfile(handler.full_path) and \
+                handler.full_path.endswith('.py')
+
+    def act(self, handler):
+        self.run_cgi(handler)
 
 class case_no_file(object):
 
@@ -100,24 +112,6 @@ class case_directory_no_index_file(object):
     def act(self, handler):
         self.list_dir(handler, handler.full_path)
 
-
-class case_cgi_file(object):
-
-    def run_cgi(self, handler):
-
-        cmd = "D:\\\"Program Files (x86)\"\\python2\\python " + handler.full_path
-        child_stdin, child_stdout = os.popen2(cmd)
-        child_stdin.close()
-        data = child_stdout.read()
-        child_stdout.close()
-        handler.send_content(data)
-
-    def test(self, handler):
-        return os.path.isfile(handler.full_path) and \
-                handler.full_path.endswith('.py')
-
-    def act(self, handler):
-        self.run_cgi(handler)
 
 
 class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
