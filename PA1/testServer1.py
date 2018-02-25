@@ -1,6 +1,10 @@
 import os
 import BaseHTTPServer
 
+#Adapted from walkthrough tutorial of 
+#Architecture of Open Source Applications
+#Chapter 22 - Greg Wilson
+
 class base_case(object):
 
     def handle_file(self, handler, full_path):
