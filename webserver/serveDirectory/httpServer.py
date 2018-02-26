@@ -183,8 +183,8 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(content)
 
 if __name__ == '__main__':
-    #PORT_NUMBER = 8080
-    serverAddress = ('', 8880)
+    PORT_NUMBER = 8680
+    serverAddress = ('', PORT_NUMBER)
     server = BaseHTTPServer.HTTPServer(serverAddress, RequestHandler)
-    #print 'Started httpserver on port ' , PORT_NUMBER
+    print 'Started httpserver on port ' , PORT_NUMBER
     server.serve_forever()
